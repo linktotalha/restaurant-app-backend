@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API as API;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [API\AuthController::class, 'login']);
+Route::post('register', [API\AuthController::class, 'register']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('dish-list', [API\DishController::class, 'index']);
+    Route::get('dish-detail/{id}', [API\DishController::class, 'show']);
+    Route::post('dish', [API\DishController::class, 'store']);
+    Route::get('delete/{id}', [API\DishController::class, 'destroy']);
+    Route::post('reviews', [API\ReviewController::class, 'store']);
+    Route::post('/logout', [API\AuthController::class, 'logout']);
 });
