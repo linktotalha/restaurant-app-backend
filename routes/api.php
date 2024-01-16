@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dish-detail/{id}', [API\DishController::class, 'show']);
     Route::post('dish', [API\DishController::class, 'store']);
     Route::get('delete/{id}', [API\DishController::class, 'destroy']);
+    Route::get('reviews/{id}', [API\ReviewController::class, 'index']);
     Route::post('reviews', [API\ReviewController::class, 'store']);
     Route::post('/logout', [API\AuthController::class, 'logout']);
 });

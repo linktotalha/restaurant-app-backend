@@ -15,7 +15,10 @@ class DishController extends Controller
 {
     public function index() {
         try {
-            $dishes = Dish::with('user')->latest()->paginate(request()->per_page, ['*'], 'page', request()->page);
+            $dishes = Dish::when(request()->input('keyword'), function($subQuery) {
+                $subQuery->where('title', 'like', '%' . request()->input('keyword'). '%');
+            })->
+            with('user')->latest()->paginate(request()->per_page, ['*'], 'page', request()->page);
             return response()->json([
                 'status' => JsonResponse::HTTP_OK,
                 'dishes' => $dishes,

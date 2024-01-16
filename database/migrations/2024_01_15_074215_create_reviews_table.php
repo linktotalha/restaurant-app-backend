@@ -16,7 +16,8 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('dish_id');
+            $table->tinyInteger('rating')->nullable();
             $table->text('review');
             $table->timestamps();
         });

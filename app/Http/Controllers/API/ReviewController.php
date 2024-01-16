@@ -13,7 +13,7 @@ class ReviewController extends Controller
     {
         try {
             $dish = Dish::findOrFail($id);
-            $reviews = $dish->reviews();
+            $reviews = $dish->reviews()->with('user');
             $reviews = $reviews->paginate(10);
             return response()->json([
                 'status' => JsonResponse::HTTP_OK,
@@ -34,7 +34,9 @@ class ReviewController extends Controller
             $review = $dish->reviews()->updateOrCreate(['user_id' => $request->user_id], [
                 'rating' => $request->rating,
                 'review' => $request->review,
-                'dish_id' => $request->dish_id
+                'rating' => $request->rating,
+                'dish_id' => $request->dish_id,
+                'user_id' => $request->user_id
             ]);
 
             if($review->wasRecentlyCreated) {
